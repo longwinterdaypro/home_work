@@ -15,8 +15,8 @@ func Unpack(s string) (string, error) {
 
 	for _, char := range s {
 		switch {
-		case (48 <= char && char <= 57 && !screen) || char == 10:
-			if sub == "" || char == 10 {
+		case (48 <= char && char <= 57 && !screen):
+			if sub == "" {
 				return "", ErrInvalidString
 			}
 			num, err := strconv.Atoi(string(char))
@@ -27,6 +27,8 @@ func Unpack(s string) (string, error) {
 			sub = ""
 		case char == 92 && !screen:
 			screen = true
+		case screen && (char != 92 && (48 > char || char > 57)):
+			return "", ErrInvalidString
 		default:
 			if sub != "" {
 				sb.WriteString(sub)
@@ -36,5 +38,8 @@ func Unpack(s string) (string, error) {
 		}
 	}
 	sb.WriteString(sub)
+	if screen {
+		return "", ErrInvalidString
+	}
 	return sb.String(), nil
 }
