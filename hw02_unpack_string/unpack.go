@@ -15,7 +15,7 @@ func Unpack(s string) (string, error) {
 
 	for _, char := range s {
 		switch {
-		case (48 <= char && char <= 57 && !screen):
+		case ('0' <= char && char <= '9' && !screen):
 			if sub == "" {
 				return "", ErrInvalidString
 			}
@@ -25,9 +25,9 @@ func Unpack(s string) (string, error) {
 			}
 			sb.WriteString(strings.Repeat(sub, num))
 			sub = ""
-		case char == 92 && !screen:
+		case char == '\\' && !screen:
 			screen = true
-		case screen && (char != 92 && (48 > char || char > 57)):
+		case screen && (char != '\\' && ('0' > char || char > '9')):
 			return "", ErrInvalidString
 		default:
 			if sub != "" {
