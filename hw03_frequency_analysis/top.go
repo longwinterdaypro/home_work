@@ -1,7 +1,6 @@
 package hw03frequencyanalysis
 
 import (
-	"fmt"
 	"regexp"
 	"sort"
 	"strings"
@@ -42,6 +41,5 @@ func Top10(s string) []string {
 	if len(keys) >= sliceLen {
 		return keys[:sliceLen]
 	}
-	fmt.Println(keys)
 	return keys
 }
